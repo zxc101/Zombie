@@ -2,6 +2,6 @@
 
 public interface IView
 {
-    int Distance { get; set; }
-    GameObject Enemy { get; set; }
+    float Distance { get; set; }
+    Transform Target { get; set; }
 }

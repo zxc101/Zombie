@@ -7,14 +7,14 @@ public class ViewEnemy : ViewAbstract {
     [SerializeField] private LayerMask obstacleMask;
     [SerializeField] private LayerMask targetMask;
 
-    [HideInInspector] public GameObject Enemy;
+    [HideInInspector] public Transform Enemy;
 
     private IView viewUse;
 
     private void Start()
     {
         viewUse = GetComponent<IView>();
-        StartCoroutine("FindEnemyWithDelay", GameSources.Instance.FrequencyOfActions);
+        StartCoroutine("FindEnemyWithDelay", GameSources.Instance.RPS);
     }
 
     IEnumerator FindEnemyWithDelay(float delay)
@@ -34,7 +34,7 @@ public class ViewEnemy : ViewAbstract {
 
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
-            GameObject target = targetsInViewRadius[i].gameObject;
+            Transform target = targetsInViewRadius[i].transform;
             Vector3 dirToTarget = (target.transform.position - transform.position).normalized;
             if (Vector3.Angle(transform.forward, dirToTarget) < angle / 2)
             {
@@ -45,6 +45,6 @@ public class ViewEnemy : ViewAbstract {
                 }
             }
         }
-        viewUse.Enemy = Enemy;
+        viewUse.Target = Enemy;
     }
 }

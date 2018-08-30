@@ -8,27 +8,32 @@ public class MoveAI : MonoBehaviour
     private const int MIN_DISTANCE = 5;
     private const int MAX_DISTANCE = 20;
 
+    public float minSpeed;
+    public float maxSpeed;
+
     private NavMeshAgent agent;
-    private IView viewUse;
+    private IView view;
 
     void Start () {
         agent = GetComponent<NavMeshAgent>();
-        viewUse = GetComponent<IView>();
-        StartCoroutine("MoveToTargetWithDelay", GameSources.Instance.FrequencyOfActions);
+        view = GetComponent<IView>();
+        StartCoroutine("MoveToTargetWithDelay", GameSources.Instance.RPS);
     }
 
-    IEnumerator MoveToTargetWithDelay(float delay)
+    private IEnumerator MoveToTargetWithDelay(float delay)
     {
         while (true)
         {
             yield return new WaitForSeconds(delay);
-            if(viewUse.Enemy != null)
+            if(view.Target != null)
             {
-                MoveToTarget(viewUse.Enemy.transform);
+                MoveToTarget(view.Target.transform);
+                agent.speed = maxSpeed;
             }
             else if(!agent.hasPath && transform.tag != "Player")
             {
                 GenericPoint();
+                agent.speed = minSpeed;
             }
         }
     }
@@ -37,7 +42,7 @@ public class MoveAI : MonoBehaviour
     {
         transform.LookAt(target);
         agent.SetDestination(target.position);
-        agent.stoppingDistance = viewUse.Distance;
+        agent.stoppingDistance = view.Distance;
     }
 
     public void GenericPoint()

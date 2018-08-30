@@ -10,7 +10,7 @@ public class Strike : MonoBehaviour
 
     private void StartCoroutines()
     {
-        StartCoroutine("StrikeWithDelay", GameSources.Instance.FrequencyOfActions);
+        StartCoroutine("StrikeWithDelay", GameSources.Instance.RPS);
         StartCoroutine("AttackWithDelay", frequencyAttack);
     }
 
@@ -26,7 +26,7 @@ public class Strike : MonoBehaviour
         {
             yield return new WaitForSeconds(delay);
             strikeUse.IsStrike = false;
-            if (strikeUse.Enemy != null && strikeUse.Enemy.GetComponent<IHealthPoints>() != null)
+            if (strikeUse.Target != null && strikeUse.Target.GetComponent<IHealthPoints>() != null)
                 strikeUse.IsStrike = true;
         }
     }
@@ -36,9 +36,13 @@ public class Strike : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(delay);
-            if (strikeUse.Enemy != null && strikeUse.Enemy.GetComponent<IHealthPoints>() != null && strikeUse.IsStrike)
+            if (strikeUse.Target != null && strikeUse.Target.GetComponent<IHealthPoints>() != null && strikeUse.IsStrike)
             {
-                strikeUse.Enemy.GetComponent<IHealthPoints>().HP -= strikeUse.Power;
+                strikeUse.Target.GetComponent<IHealthPoints>().HP -= strikeUse.Power;
+                if(strikeUse.Target.GetComponent<IHealthPoints>().HP <= 0)
+                {
+                    strikeUse.Target.GetComponent<IHealthPoints>().IsDeath = true;
+                }
             }
         }
     }

@@ -4,11 +4,11 @@ public class GameSources : MonoBehaviour {
 
     [HideInInspector] public static GameSources Instance;
     
-    [HideInInspector] public float FrequencyOfActions;
+    [HideInInspector] public float RPS;
     
     private void Awake ()
     {
         Instance = this;
-        FrequencyOfActions = .1f;
+        RPS = .1f;
     }
 }

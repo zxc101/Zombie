@@ -2,17 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerUse : MonoBehaviour, IHealthPoints, IDeath
+public class PlayerUse : MonoBehaviour, IHealthPoints
 {
     [SerializeField] private int _hp;
-    [SerializeField] private int _power;
 
-    private GameObject _enemy;
-    
-    private Transform _target;
+    [SerializeField] private GameObject _weapon;
 
-    private bool _isStrike;
-    private bool _isDeath;
+    [HideInInspector] public bool _isStrike;
+    [HideInInspector] public bool _isDeath;
 
     public int HP
     {
@@ -20,21 +17,15 @@ public class PlayerUse : MonoBehaviour, IHealthPoints, IDeath
         set { _hp = value; }
     }
 
-    public int Power
+    public GameObject Weapon
     {
-        get { return _power; }
-        set { _power = value; }
+        get { return _weapon; }
+        set { _weapon = value; }
     }
 
     public bool IsDeath
     {
         get { return _isDeath; }
         set { _isDeath = value; }
-    }
-
-    public bool IsStrike
-    {
-        get { return _isStrike; }
-        set { _isStrike = value; }
     }
 }
